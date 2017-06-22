@@ -149,7 +149,7 @@ Piece::Colour Game::Setup(const char * redName, const char * blueName)
 		redSetup = red->Setup(blueName);
 		blueSetup = blue->Setup(redName);
 	} else { // the saved position will be loaded from a file
-		loadSetup(); // TODO: implement
+		LoadSetup(); // TODO: implement
 
 		redSetup = MovementResult::OK;
 		blueSetup = MovementResult::OK;
@@ -220,6 +220,10 @@ Piece::Colour Game::Setup(const char * redName, const char * blueName)
 
 	
 	return result;
+
+}
+
+void Game::LoadSetup() {
 
 }
 
