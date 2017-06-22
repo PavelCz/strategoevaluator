@@ -76,7 +76,8 @@ Piece::Colour SetupGame(int argc, char ** argv)
 	char * red = NULL; char * blue = NULL; double stallTime = 0.0; bool graphics = false; bool allowIllegal = false; FILE * log = NULL;
 	Piece::Colour reveal = Piece::BOTH; char * inputFile = NULL; int maxTurns = 5000; bool printBoard = false; double timeoutTime = 2.0;
 	char * imageOutput = (char*)"";
-
+	// The path to a file that has a position to be loaded as initial position
+	char * savedPositionInputFile = NULL;
 
 	for (int ii=1; ii < argc; ++ii)
 	{
@@ -184,6 +185,20 @@ Piece::Colour SetupGame(int argc, char ** argv)
 					red = (char*)("file");
 					blue = (char*)("file");
 					inputFile = argv[ii+1];
+					++ii;
+					break;
+				case 'l':
+					if (argc - ii <= 1)
+					{
+						fprintf(stderr, "ARGUMENT_ERROR - Expected filename after -l switch!\n");
+						exit(EXIT_FAILURE);
+					}
+					if (log != NULL)
+					{
+						fprintf(stderr, "ARGUMENT_ERROR - Expected at most ONE -l switch!\n");
+						exit(EXIT_FAILURE);
+					}
+					savedPositionInputFile = argv[ii+1];
 					++ii;
 					break;
 				case 'v':
