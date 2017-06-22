@@ -9,7 +9,7 @@ using namespace std;
 Game* Game::theGame = NULL;
 bool Game::gameCreated = false;
 
-Game::Game(const char * redPath, const char * bluePath, const bool enableGraphics, double newStallTime, const bool allowIllegal, FILE * newLog, const  Piece::Colour & newReveal, int newMaxTurns, bool newPrintBoard, double newTimeoutTime, const char * newImageOutput) : red(NULL), blue(NULL), turn(Piece::RED), theBoard(10,10), graphicsEnabled(enableGraphics), stallTime(newStallTime), allowIllegalMoves(allowIllegal), log(newLog), reveal(newReveal), turnCount(0), input(NULL), maxTurns(newMaxTurns), printBoard(newPrintBoard), timeoutTime(newTimeoutTime), imageOutput(newImageOutput)
+Game::Game(const char * redPath, const char * bluePath, const bool enableGraphics, double newStallTime, const bool allowIllegal, FILE * newLog, const  Piece::Colour & newReveal, int newMaxTurns, bool newPrintBoard, double newTimeoutTime, const char * newImageOutput, const char * savedPositionInputFile) : red(NULL), blue(NULL), turn(Piece::RED), theBoard(10,10), graphicsEnabled(enableGraphics), stallTime(newStallTime), allowIllegalMoves(allowIllegal), log(newLog), reveal(newReveal), turnCount(0), input(NULL), maxTurns(newMaxTurns), printBoard(newPrintBoard), timeoutTime(newTimeoutTime), imageOutput(newImageOutput)
 {
 	gameCreated = false;
 	if (gameCreated)
@@ -20,7 +20,7 @@ Game::Game(const char * redPath, const char * bluePath, const bool enableGraphic
 	gameCreated = true;
 	Game::theGame = this;
 	signal(SIGPIPE, Game::HandleBrokenPipe);
-
+	savedPositionFile = fopen(savedPositionInputFile, "r");
 
 	#ifdef BUILD_GRAPHICS
 	if (graphicsEnabled && (!Graphics::Initialised()))
@@ -54,7 +54,7 @@ Game::Game(const char * redPath, const char * bluePath, const bool enableGraphic
 //	logMessage("Game initialised.\n");
 }
 
-Game::Game(const char * fromFile, const bool enableGraphics, double newStallTime, const bool allowIllegal, FILE * newLog, const  Piece::Colour & newReveal, int newMaxTurns, bool newPrintBoard, double newTimeoutTime,const char * newImageOutput) : red(NULL), blue(NULL), turn(Piece::RED), theBoard(10,10), graphicsEnabled(enableGraphics), stallTime(newStallTime), allowIllegalMoves(allowIllegal), log(newLog), reveal(newReveal), turnCount(0), input(NULL), maxTurns(newMaxTurns), printBoard(newPrintBoard), timeoutTime(newTimeoutTime), imageOutput(newImageOutput)
+Game::Game(const char * fromFile, const bool enableGraphics, double newStallTime, const bool allowIllegal, FILE * newLog, const  Piece::Colour & newReveal, int newMaxTurns, bool newPrintBoard, double newTimeoutTime,const char * newImageOutput) : red(NULL), blue(NULL), turn(Piece::RED), theBoard(10,10), graphicsEnabled(enableGraphics), stallTime(newStallTime), allowIllegalMoves(allowIllegal), log(newLog), reveal(newReveal), turnCount(0), input(NULL), maxTurns(newMaxTurns), printBoard(newPrintBoard), timeoutTime(newTimeoutTime), imageOutput(newImageOutput), savedPositionFile(NULL)
 {
 	gameCreated = false;
 	if (gameCreated)

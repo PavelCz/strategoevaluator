@@ -274,7 +274,7 @@ Piece::Colour SetupGame(int argc, char ** argv)
 			exit(EXIT_FAILURE);	
 		}
 
-		Game::theGame = new Game(red,blue, graphics, stallTime, allowIllegal,log, reveal,maxTurns, printBoard, timeoutTime, imageOutput);
+		Game::theGame = new Game(red,blue, graphics, stallTime, allowIllegal,log, reveal,maxTurns, printBoard, timeoutTime, imageOutput, savedPositionInputFile);
 	}
 	else
 	{
