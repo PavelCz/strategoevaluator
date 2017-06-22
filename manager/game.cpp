@@ -143,9 +143,17 @@ Piece::Colour Game::Setup(const char * redName, const char * blueName)
 		}
 	}
 
+	MovementResult redSetup = MovementResult::ERROR;
+	MovementResult blueSetup = MovementResult::ERROR;
+	if (savedPositionFile == NULL) {
+		redSetup = red->Setup(blueName);
+		blueSetup = blue->Setup(redName);
+	} else { // the saved position will be loaded from a file
+		loadSetup(); // TODO: implement
 
-	MovementResult redSetup = red->Setup(blueName);
-	MovementResult blueSetup = blue->Setup(redName);
+		redSetup = MovementResult::OK;
+		blueSetup = MovementResult::OK;
+	}
 
 
 	Piece::Colour result = Piece::NONE;
