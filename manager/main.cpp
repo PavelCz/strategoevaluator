@@ -188,6 +188,9 @@ Piece::Colour SetupGame(int argc, char ** argv)
 					++ii;
 					break;
 				case 'l':
+					// In the future maybe provide a switch to decide, which player starts a saved game
+					// For now RED is always the starting player, as it is currently implemented for
+					// regular games of stratego in strategoevaluator
 					if (argc - ii <= 1)
 					{
 						fprintf(stderr, "ARGUMENT_ERROR - Expected filename after -l switch!\n");
