@@ -224,7 +224,26 @@ Piece::Colour Game::Setup(const char * redName, const char * blueName)
 }
 
 void Game::LoadSetup() {
+	int lineNumber = 0;
+	int height = 10;
+	int widht = 10;
+	char redSetup [height][width + 1]; // + 1 to allow space for null terminator
+	char blueSetup [height][width + 1];
 
+	while ( ! feof (savedPositionFile) ) {
+		lineNumber++;
+		char line [width + 1]; // + 1 to allow space for null terminator
+		fgets (line , widht , savedPositionFile);
+		if (line  == NULL ) {
+			break; // Error
+		}
+		if(lineNumber < height) {
+			strcpy(redSetup[lineNumber], line);
+		} else {
+			strcpy(blueSetup[lineNumber-height], line);
+		}
+	}
+	fclose (pFile);
 }
 
 void Game::Wait(double wait)
