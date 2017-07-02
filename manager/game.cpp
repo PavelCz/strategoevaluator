@@ -149,10 +149,11 @@ Piece::Colour Game::Setup(const char * redName, const char * blueName)
 		redSetup = red->Setup(blueName);
 		blueSetup = blue->Setup(redName);
 	} else { // the saved position will be loaded from a file
-		LoadSetup(); // TODO: implement
-
-		redSetup = MovementResult::OK;
-		blueSetup = MovementResult::OK;
+		redSetup = red->Setup(blueName);
+		blueSetup = blue->Setup(redName);
+		LoadSetup();
+		//redSetup = MovementResult::OK;
+		//blueSetup = MovementResult::OK;
 	}
 
 
@@ -227,10 +228,13 @@ void Game::LoadSetup() {
 	int lineNumber = 0;
 	int height = 10;
 	int width = 10;
-	char* redSetup [width + 1]; // + 1 to allow space for null terminator
-	char* blueSetup [width + 1];
+	//char redSetup [height][width + 1]; // + 1 to allow space for null terminator
+	//char blueSetup [height][width + 1];
+	char redSetup [10][11]; // + 1 to allow space for null terminator
+	char blueSetup [10][11];
 
-	while ( ! feof (savedPositionFile) ) {
+	//while ( ! feof (savedPositionFile) ) {
+	while (lineNumber < 2 * height) {
 		lineNumber++;
 		char line [width + 1]; // + 1 to allow space for null terminator
 		fgets (line , width , savedPositionFile);
@@ -238,9 +242,9 @@ void Game::LoadSetup() {
 			break; // Error
 		}
 		if(lineNumber < height) {
-			strcpy(redSetup[lineNumber], line);
+			strncpy(redSetup[lineNumber], line, 10);
 		} else {
-			strcpy(blueSetup[lineNumber-height], line);
+			strncpy(blueSetup[lineNumber-height], line, 10);
 		}
 	}
 	fclose (savedPositionFile);
@@ -254,7 +258,7 @@ void Game::LoadSetup() {
 	}
 }
 
-void Game::AddPiecesFromArrayToBoard(char* array[], Piece::Colour colour,
+void Game::AddPiecesFromArrayToBoard(char (&array)[10][11], Piece::Colour colour,
 		int usedUnits[]) {
 	for (int y = 0; y < theBoard.Height(); ++y) {
 		for (int x = 0; x < Game::theGame->theBoard.Width(); ++x) {
