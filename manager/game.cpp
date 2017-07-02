@@ -247,34 +247,27 @@ void Game::LoadSetup() {
 	int usedUnits[(int)(Piece::BOMB)];
 	for (int ii = 0; ii <= (int)(Piece::BOMB); ++ii)
 		usedUnits[ii] = 0;
+	AddPiecesFromArrayToBoard(redSetup, Piece::RED, usedUnits);
+	AddPiecesFromArrayToBoard(blueSetup, Piece::BLUE, usedUnits);
+	if (usedUnits[(int) Piece::FLAG] <= 0) {
+		; // Error: You need to include a flag!
+	}
+}
+
+void Game::AddPiecesFromArrayToBoard(const char array[][], Piece::Colour colour,
+		const int usedUnits[]) {
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < Game::theGame->theBoard.Width(); ++x) {
-			Piece::Type type = Piece::GetType(redSetup[x][y]);
+			Piece::Type type = Piece::GetType(array[x][y]);
 			if (type != Piece::NOTHING) {
 				usedUnits[(int) (type)]++;
 				if (usedUnits[type] > Piece::maxUnits[(int) type]) {
 					//fprintf(stderr, "Too many units of type %c\n", Piece::tokens[(int)(type)]);
 					// Error: Too many units
 				}
-				Game::theGame->theBoard.AddPiece(x, y, type, Piece::RED);
+				Game::theGame->theBoard.AddPiece(x, y, type, colour);
 			}
 		}
-	}
-	for (int y = 0; y < height; ++y) {
-			for (int x = 0; x < Game::theGame->theBoard.Width(); ++x) {
-				Piece::Type type = Piece::GetType(blueSetup[x][y]);
-				if (type != Piece::NOTHING) {
-					usedUnits[(int) (type)]++;
-					if (usedUnits[type] > Piece::maxUnits[(int) type]) {
-						//fprintf(stderr, "Too many units of type %c\n", Piece::tokens[(int)(type)]);
-						// Error: Too many units
-					}
-					Game::theGame->theBoard.AddPiece(x, y, type, Piece::BLUE);
-				}
-			}
-		}
-	if (usedUnits[(int) Piece::FLAG] <= 0) {
-		; // Error: You need to include a flag!
 	}
 }
 

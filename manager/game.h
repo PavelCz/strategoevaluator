@@ -42,6 +42,7 @@ class Game
 	private:
 		void MakeControllers(const char * redPath, const char * bluePath); //Create a controller based off a path
 		void LoadSetup();
+		void AddPiecesFromArrayToBoard(const char array [][], Piece::Colour colour, const int usedUnits[]);
 	public:
 		int logMessage(const char * format, ...);
 		static void PrintResults(const MovementResult & result, std::string & buffer);
