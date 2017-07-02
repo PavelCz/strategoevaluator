@@ -236,13 +236,14 @@ void Game::LoadSetup() {
 
 	//while ( ! feof (savedPositionFile) ) {
 	while (lineNumber < 2 * height) {
-		char line [width + 2]; // + 1 to allow space for newline + null terminator 
+		char line [width + 2]; // + 2 to allow space for newline + null terminator 
 		// reads 10 characters and inserts NULL char
 		fgets (line , width + 2 , savedPositionFile);
 		if (line  == NULL ) {
 			break; // Error
 		}
 		if(lineNumber < height) {
+			// copy only 10 characters, the rest are not usefule to us (\n\0)
 			strncpy(redSetup[lineNumber], line, 10);
 		} else {
 			strncpy(blueSetup[lineNumber-height], line, 10);
