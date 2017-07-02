@@ -196,7 +196,7 @@ Piece::Colour SetupGame(int argc, char ** argv)
 						fprintf(stderr, "ARGUMENT_ERROR - Expected filename after -l switch!\n");
 						exit(EXIT_FAILURE);
 					}
-					if (log != NULL)
+					if (savedPositionInputFile != NULL)
 					{
 						fprintf(stderr, "ARGUMENT_ERROR - Expected at most ONE -l switch!\n");
 						exit(EXIT_FAILURE);
