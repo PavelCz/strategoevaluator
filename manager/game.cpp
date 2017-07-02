@@ -151,6 +151,10 @@ Piece::Colour Game::Setup(const char * redName, const char * blueName)
 	} else { // the saved position will be loaded from a file
 		//redSetup = red->Setup(blueName);
 		//blueSetup = blue->Setup(redName);
+		string setupRed[4] = {"","","",""};
+		string setupBlue[4] = {"","","",""};
+		redSetup = red->QuerySetup(blueName, setupRed);
+		blueSetup = blue->QuerySetup(redName, setupBlue);
 		LoadSetup();
 		redSetup = MovementResult::OK;
 		blueSetup = MovementResult::OK;
