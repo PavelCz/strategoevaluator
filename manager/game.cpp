@@ -263,7 +263,7 @@ void Game::AddPiecesFromArrayToBoard(char (&array)[10][11], Piece::Colour colour
 	for (int y = 0; y < theBoard.Height(); ++y) {
 		for (int x = 0; x < Game::theGame->theBoard.Width(); ++x) {
 			Piece::Type type = Piece::GetType(array[x][y]);
-			if (type != Piece::NOTHING) {
+			if (type != Piece::NOTHING && type != Piece::BOULDER) {
 				usedUnits[(int) (type)]++;
 				if (usedUnits[type] > Piece::maxUnits[(int) type]) {
 					//fprintf(stderr, "Too many units of type %c\n", Piece::tokens[(int)(type)]);
