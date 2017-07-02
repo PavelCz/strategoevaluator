@@ -226,14 +226,14 @@ Piece::Colour Game::Setup(const char * redName, const char * blueName)
 void Game::LoadSetup() {
 	int lineNumber = 0;
 	int height = 10;
-	int widht = 10;
+	int width = 10;
 	char* redSetup [width + 1]; // + 1 to allow space for null terminator
 	char* blueSetup [width + 1];
 
 	while ( ! feof (savedPositionFile) ) {
 		lineNumber++;
 		char line [width + 1]; // + 1 to allow space for null terminator
-		fgets (line , widht , savedPositionFile);
+		fgets (line , width , savedPositionFile);
 		if (line  == NULL ) {
 			break; // Error
 		}
@@ -243,7 +243,7 @@ void Game::LoadSetup() {
 			strcpy(blueSetup[lineNumber-height], line);
 		}
 	}
-	fclose (pFile);
+	fclose (savedPositionFile);
 	int usedUnits[(int)(Piece::BOMB)];
 	for (int ii = 0; ii <= (int)(Piece::BOMB); ++ii)
 		usedUnits[ii] = 0;
@@ -256,7 +256,7 @@ void Game::LoadSetup() {
 
 void Game::AddPiecesFromArrayToBoard(char* array[], Piece::Colour colour,
 		int usedUnits[]) {
-	for (int y = 0; y < height; ++y) {
+	for (int y = 0; y < theBoard.Height(); ++y) {
 		for (int x = 0; x < Game::theGame->theBoard.Width(); ++x) {
 			Piece::Type type = Piece::GetType(array[x][y]);
 			if (type != Piece::NOTHING) {
