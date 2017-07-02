@@ -149,11 +149,11 @@ Piece::Colour Game::Setup(const char * redName, const char * blueName)
 		redSetup = red->Setup(blueName);
 		blueSetup = blue->Setup(redName);
 	} else { // the saved position will be loaded from a file
-		redSetup = red->Setup(blueName);
-		blueSetup = blue->Setup(redName);
+		//redSetup = red->Setup(blueName);
+		//blueSetup = blue->Setup(redName);
 		LoadSetup();
-		//redSetup = MovementResult::OK;
-		//blueSetup = MovementResult::OK;
+		redSetup = MovementResult::OK;
+		blueSetup = MovementResult::OK;
 	}
 
 
@@ -230,14 +230,15 @@ void Game::LoadSetup() {
 	int width = 10;
 	//char redSetup [height][width + 1]; // + 1 to allow space for null terminator
 	//char blueSetup [height][width + 1];
+	// dimensions y,x
 	char redSetup [10][11]; // + 1 to allow space for null terminator
 	char blueSetup [10][11];
 
 	//while ( ! feof (savedPositionFile) ) {
 	while (lineNumber < 2 * height) {
-		lineNumber++;
-		char line [width + 1]; // + 1 to allow space for null terminator
-		fgets (line , width , savedPositionFile);
+		char line [width + 2]; // + 1 to allow space for newline + null terminator 
+		// reads 10 characters and inserts NULL char
+		fgets (line , width + 2 , savedPositionFile);
 		if (line  == NULL ) {
 			break; // Error
 		}
@@ -246,6 +247,7 @@ void Game::LoadSetup() {
 		} else {
 			strncpy(blueSetup[lineNumber-height], line, 10);
 		}
+		lineNumber++;
 	}
 	fclose (savedPositionFile);
 	int usedUnits[(int)(Piece::BOMB)];
@@ -262,8 +264,8 @@ void Game::AddPiecesFromArrayToBoard(char (&array)[10][11], Piece::Colour colour
 		int usedUnits[]) {
 	for (int y = 0; y < theBoard.Height(); ++y) {
 		for (int x = 0; x < Game::theGame->theBoard.Width(); ++x) {
-			Piece::Type type = Piece::GetType(array[x][y]);
-			if (type != Piece::NOTHING && type != Piece::BOULDER) {
+			Piece::Type type = Piece::GetType(array[y][x]);
+			if (type != Piece::NOTHING) {
 				usedUnits[(int) (type)]++;
 				if (usedUnits[type] > Piece::maxUnits[(int) type]) {
 					//fprintf(stderr, "Too many units of type %c\n", Piece::tokens[(int)(type)]);
