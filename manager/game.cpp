@@ -227,8 +227,8 @@ void Game::LoadSetup() {
 	int lineNumber = 0;
 	int height = 10;
 	int widht = 10;
-	char redSetup [height][width + 1]; // + 1 to allow space for null terminator
-	char blueSetup [height][width + 1];
+	char* redSetup [width + 1]; // + 1 to allow space for null terminator
+	char* blueSetup [width + 1];
 
 	while ( ! feof (savedPositionFile) ) {
 		lineNumber++;
@@ -254,8 +254,8 @@ void Game::LoadSetup() {
 	}
 }
 
-void Game::AddPiecesFromArrayToBoard(const char array[][], Piece::Colour colour,
-		const int usedUnits[]) {
+void Game::AddPiecesFromArrayToBoard(char* array[], Piece::Colour colour,
+		int usedUnits[]) {
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < Game::theGame->theBoard.Width(); ++x) {
 			Piece::Type type = Piece::GetType(array[x][y]);
